@@ -231,3 +231,14 @@
   icon: /Textures/Interface/Alerts/human_health.rsi/health6.png
   name: Debug6
   description: Debug
+
+- type: alert
+  alertType: MobSanity
+  category: Sanity
+  icon:
+    sprite: /Textures/Interface/Alerts/sanity.rsi
+    state: sanity
+  name: Sanity
+  description: How nuts are you right now?
+  minSeverity: 0
+  maxSeverity: 5

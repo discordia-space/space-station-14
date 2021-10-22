@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "https://github.com/discordia-space/CEV-Eris/pull/4028",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "sanity0"
+    },
+    {
+      "name": "sanity1"
+    },
+    {
+      "name": "sanity2"
+    },
+    {
+      "name": "sanity3"
+    },
+    {
+      "name": "sanity4"
+    },
+    {
+      "name": "sanity5"
+    }
+  ]
+}

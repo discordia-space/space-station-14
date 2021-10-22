@@ -17,6 +17,7 @@
       - CombatMode
       - Disarm
       - HumanScream
+  - type: Sanity
   - type: Eye
   - type: CameraRecoil
   - type: Examiner

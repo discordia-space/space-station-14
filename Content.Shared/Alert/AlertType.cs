@@ -53,11 +53,7 @@ namespace Content.Shared.Alert
         Debug4,
         Debug5,
         Debug6,
-        Crazy,
-        Unhinged,
-        Normal,
-        Happy,
-        FeelingGreat
+        MobSanity
     }
 
 }

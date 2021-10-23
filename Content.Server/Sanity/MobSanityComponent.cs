@@ -12,61 +12,60 @@ using Robust.Shared.Serialization.Manager.Attributes;
 using Robust.Server.Player;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
+using Robust.Shared.ViewVariables;
 
 namespace Content.Server.Sanity
 {
     [RegisterComponent()]
-    public partial class MobSanityComponent : Component
+    public class MobSanityComponent : Component
     {
         public override string Name => "Sanity";
+
         public int Sanity
         {
-            get => Sanity;
+            get => _sanity;
             set
             {
-                if (Sanity + value > MaxSanity)
+                if (_sanity + value > MaxSanity)
                 {
-                    Sanity = MaxSanity;
+                    _sanity = MaxSanity;
                 }
                 else
-                    Sanity += value;
+                    _sanity += value;
 
             }
-        } 
+        }
+        /// <summary>
+        ///  Internal variable for handling sanity set and get.
+        /// </summary>
+        private int _sanity = 0;
 
         public int SanityGainDefault = 5;
+        /// <summary>
+        /// Maximum sanity to lose per cycle. Can be influenced
+        /// </summary>
 
         public int MaxSanityDecayPerCycle = 20;
+        /// <summary>
+        /// This divides max sanity to show the sanity hud element sprite, automatically updated when max sanity changes , do not touch.
+        /// </summary>
 
-        public int MaxSanity = 100;
-        /*
-        public Dictionary<SanityThreshold, int> SanityThresholds { get; } = new()
-        {
-            { SanityThreshold.FeelingGreat, 80 },
-            { SanityThreshold.Happy , 60 },
-            { SanityThreshold.Normal, 40 },
-            { SanityThreshold.Unhinged, 30},
-            { SanityThreshold.Crazy, 15},
-        };
+        public int SanitySteps = 20;
 
-        public static readonly Dictionary<SanityThreshold, AlertType> SanityThresholdAlertTypes = new()
+        /// <summary>
+        ///  This is the maximum sanity , the more a player has the bigger the buffer between the stages becomes
+        /// </summary>
+        public int MaxSanity
         {
-            { SanityThreshold.FeelingGreat, AlertType.FeelingGreat },
-            { SanityThreshold.Happy, AlertType.Happy },
-            { SanityThreshold.Normal, AlertType.Normal },
-            { SanityThreshold.Unhinged, AlertType.Unhinged },
-            { SanityThreshold.Crazy, AlertType.Crazy },
-        };
-        
-        public enum SanityThreshold : byte
-        {
-            // psychomies
-            FeelingGreat,
-            Happy,
-            Normal,
-            Unhinged,
-            Crazy,
+            get => _maxSanity;
+            set
+            {
+                _maxSanity = value;
+                SanitySteps = _maxSanity / 6;
+            }
         }
-        */
+
+        private int _maxSanity = 100;
+        
     }
 }

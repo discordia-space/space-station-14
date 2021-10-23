@@ -26,5 +26,13 @@
 
   <Import Project="..\RobustToolbox\MSBuild\XamlIL.targets" />
   <Import Project="..\RobustToolbox\MSBuild\Robust.Analyzers.targets" />
+  <ItemGroup>
+    <EmbeddedResource Remove="Sanity\SanityWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Update="Sanity\UI\SanityWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AdditionalFiles>
+  </ItemGroup>
 
 </Project>

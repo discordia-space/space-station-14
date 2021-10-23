@@ -16,7 +16,8 @@ namespace Content.Server.Sanity
     public class SanitySystem : EntitySystem
     {
 
-        public float frameaccul = 0.0f;
+        public float TimeAccumulator = 0.0f;
+        public float TimeBetweenTicks = 15.0f;
         public HashSet<MobSanityComponent> SanityCompsToTick = new();
 
 
@@ -40,36 +41,23 @@ namespace Content.Server.Sanity
 
         public override void Update(float frameTime)
         {
-            frameaccul += frameTime;
-            if(frameaccul > 10.0f)
+            TimeAccumulator += frameTime;
+            if (TimeAccumulator < TimeBetweenTicks)
             {
-                frameaccul = 0.0f;
-            }
-            else
-            {
+                TimeAccumulator += frameTime;
                 return;
             }
-            /*
-            if(Counter > 10)
-            {
-                Counter = 0;
-            }
-            else
-            {
-                Counter++;
-                return;
-            }
-            */
+            TimeAccumulator = 0.0f;
 
-            foreach (MobSanityComponent component in EntityManager.EntityQuery<MobSanityComponent>())
+
+            foreach (MobSanityComponent component in SanityCompsToTick)
             {
-                component.Sanity += component.SanityGainDefault;
+                component.Sanity += Math.Max((int)(component.SanityGainPerSecond * TimeBetweenTicks), 0);
                 if (!component.Owner.TryGetComponent(out ServerAlertsComponent? alerts))
                 {
                     continue;
                 }
-                short variable = 2;
-                alerts.ShowAlert(AlertType.MobSanity, variable);
+                alerts.ShowAlert(AlertType.MobSanity, (short)(component.Sanity/component.SanitySteps));
             }
             
         }

@@ -36,9 +36,10 @@ namespace Content.Client.Sanity.UI
         protected override void UpdateState(BoundUserInterfaceState state)
         {
             base.UpdateState(state);
+            /*
             if (_window == null || state is not SanityBoundUserInterfaceState cast)
                 return;
-
+            */
         }
 
         protected override void Dispose(bool disposing)

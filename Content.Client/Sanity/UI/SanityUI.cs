@@ -14,8 +14,6 @@ namespace Content.Client.Sanity.UI
         public SanityWindow()
         {
             RobustXamlLoader.Load(this);
-
- 
         }
 
     }

@@ -1,7 +1,7 @@
-using Content.Shared.Sanity;
 using Robust.Client.GameObjects;
 using Robust.Shared.GameObjects;
 using Content.Client.Sanity;
+using Content.Shared.Sanity;
 
 namespace Content.Client.Sanity.UI
 {
@@ -33,14 +33,12 @@ namespace Content.Client.Sanity.UI
         /// <summary>
         /// Update the UI state based on server-sent info
         /// </summary>
-        /// <param name="state"></param>
         protected override void UpdateState(BoundUserInterfaceState state)
         {
             base.UpdateState(state);
-            if (_window == null || state is not SanityBoundUserInterface cast)
+            if (_window == null || state is not SanityBoundUserInterfaceState cast)
                 return;
 
-            _window.SetCurrentLabel(cast.CurrentLabel);
         }
 
         protected override void Dispose(bool disposing)

@@ -22,8 +22,6 @@ namespace Content.Shared.Sanity
             public int Insight { get; }
             public int Sanity { get; }
             public int Rest { get; }
-
-
             public SanityBoundUserInterfaceState(int insight, int sanity, int rest)
             {
                 Insight = insight;
@@ -31,31 +29,6 @@ namespace Content.Shared.Sanity
                 Rest = rest;
             }
         }
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
+  

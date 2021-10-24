@@ -1,0 +1,33 @@
+- type: entity
+  id: Ladder
+  name: ladder
+  desc: ladder to climb up or down
+  abstract: true
+  placement:
+    mode: SnapgridCenter
+  components:
+    - type: Sprite
+      sprite: Structures/stairs.rsi
+      drawdepth: FloorObjects
+    - type: Ladder
+    - type: Clickable
+    
+- type: entity
+  id: LadderDown
+  parent: Ladder
+  prefix: down
+  components:
+    - type: Sprite
+      state: ladderdown
+    - type: Ladder
+      down: true
+      
+- type: entity
+  id: LadderUp
+  prefix: up
+  parent: Ladder
+  components:
+    - type: Sprite
+      state: ladderup
+    - type: Ladder
+      down: false

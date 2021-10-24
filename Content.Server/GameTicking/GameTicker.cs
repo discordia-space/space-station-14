@@ -7,6 +7,7 @@ using Robust.Server;
 using Robust.Server.Maps;
 using Robust.Server.ServerStatus;
 using Robust.Shared.Configuration;
+using Robust.Shared.ContentPack;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 using Robust.Shared.Map;
@@ -17,6 +18,7 @@ using Robust.Shared.Reflection;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using Robust.Shared.ViewVariables;
+using System.Collections.Generic;
 
 namespace Content.Server.GameTicking
 {
@@ -27,6 +29,9 @@ namespace Content.Server.GameTicking
 
         [ViewVariables] public MapId DefaultMap { get; private set; }
         [ViewVariables] public GridId DefaultGridId { get; private set; }
+
+        [ViewVariables] public List<MapId> MapsZ { get; private set; } = new();
+        [ViewVariables] public List<GridId> GridsZ { get; private set; } = new();
 
         public override void Initialize()
         {
@@ -85,5 +90,6 @@ namespace Content.Server.GameTicking
         [Dependency] private readonly IBaseServer _baseServer = default!;
         [Dependency] private readonly IWatchdogApi _watchdogApi = default!;
         [Dependency] private readonly IReflectionManager _reflectionManager = default!;
+        [Dependency] private readonly IResourceManager _resMan = default!;
     }
 }

@@ -27,6 +27,9 @@ namespace Content.Server.GameTicking
         [ViewVariables]
         public float MaxStationOffset { get; private set; } = 0f;
 
+        [ViewVariables]
+        public string ZLevels { get; private set; } = CCVars.ZLevels.DefaultValue;
+
         private void InitializeCVars()
         {
             _configurationManager.OnValueChanged(CCVars.GameLobbyEnabled, value => LobbyEnabled = value, true);
@@ -37,6 +40,7 @@ namespace Content.Server.GameTicking
                 value => { DisallowLateJoin = value; UpdateLateJoinStatus(); UpdateJobsAvailable(); }, true);
             _configurationManager.OnValueChanged(CCVars.StationOffset, value => StationOffset = value, true);
             _configurationManager.OnValueChanged(CCVars.MaxStationOffset, value => MaxStationOffset = value, true);
+            _configurationManager.OnValueChanged(CCVars.ZLevels, value => ZLevels = value, true);
         }
     }
 }

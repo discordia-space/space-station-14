@@ -9,6 +9,7 @@ using Robust.Shared.GameObjects;
 using Robust.Shared.Serialization.Manager.Attributes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 using Robust.Shared.ViewVariables;
+using Robust.Shared.Map;
 
 namespace Content.Server.Power.Components
 {

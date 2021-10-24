@@ -77,6 +77,9 @@ namespace Content.Shared.CCVar
         public static readonly CVarDef<string>
             GameMap = CVarDef.Create("game.map", "Maps/saltern.yml", CVar.SERVERONLY);
 
+        public static readonly CVarDef<string>
+            ZLevels = CVarDef.Create("game.zlevels", "Maps/zlevels.yml", CVar.SERVERONLY);
+
         /// <summary>
         ///     Whether a random position offset will be applied to the station on roundstart.
         /// </summary>

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Content.Server.Players;
 using Content.Shared.CCVar;
@@ -17,6 +18,7 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using Robust.Shared.ViewVariables;
+using YamlDotNet.RepresentationModel;
 
 namespace Content.Server.GameTicking
 {
@@ -53,29 +55,80 @@ namespace Content.Server.GameTicking
 
         private void PreRoundSetup()
         {
-            DefaultMap = _mapManager.CreateMap();
+            
             var startTime = _gameTiming.RealTime;
-            var map = ChosenMap;
-            var grid = _mapLoader.LoadBlueprint(DefaultMap, map);
+            
+            var zLevels = ZLevels;
 
-            if (grid == null)
+            var zLevelsDoc = new YamlDocument(zLevels);
+            TextReader reader;
+            var resPath = new ResourcePath(zLevels).ToRootedPath();
+            if (_resMan.TryContentFileRead(resPath, out var contentReader))
             {
-                throw new InvalidOperationException($"No grid found for map {map}");
-            }
+                reader = new StreamReader(contentReader);
+                var stream = new YamlStream();
+                stream.Load(reader);
 
-            if (StationOffset)
+                var root = stream.Documents[0].RootNode as YamlMappingNode;
+                if (root != null)
+                {
+                    var levels = root.GetNode<YamlMappingNode>("levels");
+                    int counter = 0;
+                    while (levels.TryGetNode<YamlScalarNode>(counter.ToString(), out var node)) {
+                        var mapName = node.AsString();
+
+                        var mapZ = _mapManager.CreateMap();
+                        var gridZ = _mapLoader.LoadBlueprint(mapZ, mapName);
+
+                        if (gridZ == null)
+                        {
+                            throw new InvalidOperationException("No grid found for the Z-Level map");
+                        }
+
+                        MapsZ.Add(mapZ);
+                        GridsZ.Add(gridZ.Index);
+
+                        counter++;
+                    }
+
+                    var firstGrid = _mapManager.GetGrid(GridsZ[0]);
+
+                    _spawnPoint = firstGrid.ToCoordinates();
+                }
+                else
+                {
+                    throw new InvalidOperationException("Please fill your ZLevels file. Location: " + zLevels);
+                }
+            }
+            else
             {
-                // Apply a random offset to the station grid entity.
-                var x = _robustRandom.NextFloat() * MaxStationOffset * 2 - MaxStationOffset;
-                var y = _robustRandom.NextFloat() * MaxStationOffset * 2 - MaxStationOffset;
-                EntityManager.GetEntity(grid.GridEntityId).Transform.LocalPosition = new Vector2(x, y);
+                Logger.Warning("Z LEVELS NOT FOUND! Loading default map...");
+
+                DefaultMap = _mapManager.CreateMap();
+                var map = ChosenMap;
+
+
+                var grid = _mapLoader.LoadBlueprint(DefaultMap, map);
+
+                if (grid == null)
+                {
+                    throw new InvalidOperationException($"No grid found for map {map}");
+                }
+
+                if (StationOffset)
+                {
+                    // Apply a random offset to the station grid entity.
+                    var x = _robustRandom.NextFloat() * MaxStationOffset * 2 - MaxStationOffset;
+                    var y = _robustRandom.NextFloat() * MaxStationOffset * 2 - MaxStationOffset;
+                    EntityManager.GetEntity(grid.GridEntityId).Transform.LocalPosition = new Vector2(x, y);
+                }
+
+                DefaultGridId = grid.Index;
+                _spawnPoint = grid.ToCoordinates();
+
+                var timeSpan = _gameTiming.RealTime - startTime;
+                Logger.InfoS("ticker", $"Loaded map in {timeSpan.TotalMilliseconds:N2}ms.");
             }
-
-            DefaultGridId = grid.Index;
-            _spawnPoint = grid.ToCoordinates();
-
-            var timeSpan = _gameTiming.RealTime - startTime;
-            Logger.InfoS("ticker", $"Loaded map in {timeSpan.TotalMilliseconds:N2}ms.");
         }
 
         public void StartRound(bool force = false)

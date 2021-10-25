@@ -284,8 +284,7 @@ namespace Content.Client.Entry
             "ToggleDoorOnTrigger",
             "DeviceNetworkConnection",
             "WiredNetworkConnection",
-            "WirelessNetworkConnection",
-            "Sanity"
+            "WirelessNetworkConnection"
         };
     }
 }

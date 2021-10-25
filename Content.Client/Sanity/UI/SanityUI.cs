@@ -16,6 +16,10 @@ namespace Content.Client.Sanity.UI
             RobustXamlLoader.Load(this);
         }
 
+        public void UpdateData(int sanity)
+        {
+            SanityLineEdit.Text = sanity.ToString();
+        }
     }
 
 

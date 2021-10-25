@@ -6,29 +6,28 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared.Sanity
 {
-    public class SharedMobSanityComponent : Component
+
+    [Serializable, NetSerializable]
+    public enum SanityMenuUiKey
     {
-        public override string Name => "Sanity";
+        Key,
+    }
 
-        [Serializable, NetSerializable]
-        public enum SanityUiKey
-        {
-            Key,
-        }
 
-        [Serializable, NetSerializable]
-        public class SanityBoundUserInterfaceState : BoundUserInterfaceMessage
+    [Serializable, NetSerializable]
+    public class SanityBoundUserInterfaceState : BoundUserInterfaceState
+    {
+
+        public int Insight { get; }
+        public int Sanity { get; }
+        public int Rest { get; }
+        public SanityBoundUserInterfaceState(int insight, int sanity, int rest)
         {
-            public int Insight { get; }
-            public int Sanity { get; }
-            public int Rest { get; }
-            public SanityBoundUserInterfaceState(int insight, int sanity, int rest)
-            {
-                Insight = insight;
-                Sanity = sanity;
-                Rest = rest;
-            }
+            Insight = insight;
+            Sanity = sanity;
+            Rest = rest;
         }
     }
 }
-  
+
+

@@ -18,8 +18,10 @@ using Content.Shared.Sanity;
 namespace Content.Server.Sanity
 {
     [RegisterComponent()]
-    public class MobSanityComponent : SharedMobSanityComponent
+    public class MobSanityComponent : Component
     {
+
+        public override string Name => "Sanity";
 
         /// <summary>
         ///  Sanity variables

@@ -10,6 +10,8 @@ using Robust.Server.Placement;
 using Robust.Server.Player;
 using Content.Shared.Alert;
 using Content.Server.Alert;
+using Content.Server.UserInterface;
+using Content.Shared.Sanity;
 
 namespace Content.Server.Sanity
 {
@@ -36,6 +38,14 @@ namespace Content.Server.Sanity
         public void OnDelete(EntityUid uid, MobSanityComponent component, ComponentRemove args)
         {
             SanityCompsToTick.Remove(component);
+        }
+
+        public void OpenUI(MobSanityComponent component)
+        {
+            if(component.Owner.TryGetComponent(out ActorComponent? actorComponent))
+            {
+                component.Owner.GetUIOrNull(SanityMenuUiKey.Key)?.Open(actorComponent.PlayerSession);
+            }
         }
 
 

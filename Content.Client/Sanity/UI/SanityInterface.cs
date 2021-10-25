@@ -2,11 +2,11 @@ using Robust.Client.GameObjects;
 using Robust.Shared.GameObjects;
 using Content.Client.Sanity;
 using Content.Shared.Sanity;
+using System;
 
 namespace Content.Client.Sanity.UI
 {
     /// <summary>
-    /// Initializes a <see cref="HandLabelerWindow"/> and updates it when new server messages are received.
     /// </summary>
     public class SanityBoundUserInterface : BoundUserInterface
     {
@@ -36,10 +36,12 @@ namespace Content.Client.Sanity.UI
         protected override void UpdateState(BoundUserInterfaceState state)
         {
             base.UpdateState(state);
-            /*
+            
             if (_window == null || state is not SanityBoundUserInterfaceState cast)
                 return;
-            */
+
+            _window.UpdateData(cast.Sanity);
+            
         }
 
         protected override void Dispose(bool disposing)

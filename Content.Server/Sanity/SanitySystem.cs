@@ -12,15 +12,15 @@ using Content.Shared.Alert;
 using Content.Server.Alert;
 using Content.Server.UserInterface;
 using Content.Shared.Sanity;
+using Content.Shared.Eui;
 
 namespace Content.Server.Sanity
 {
-    public class SanitySystem : EntitySystem
+    public sealed class SanitySystem : SharedSanitySystem
     {
-
+        public HashSet<MobSanityComponent> SanityCompsToTick = new();
         public float TimeAccumulator = 0.0f;
         public float TimeBetweenTicks = 15.0f;
-        public HashSet<MobSanityComponent> SanityCompsToTick = new();
 
 
         public override void Initialize()
@@ -42,10 +42,7 @@ namespace Content.Server.Sanity
 
         public void OpenUI(MobSanityComponent component)
         {
-            if(component.Owner.TryGetComponent(out ActorComponent? actorComponent))
-            {
-                component.Owner.GetUIOrNull(SanityMenuUiKey.Key)?.Open(actorComponent.PlayerSession);
-            }
+            RaiseNetworkEvent(new SanityOpenUI(component.Insight, component.Sanity, component.Rest));
         }
 
 
@@ -58,7 +55,6 @@ namespace Content.Server.Sanity
                 return;
             }
             TimeAccumulator = 0.0f;
-
 
             foreach (MobSanityComponent component in SanityCompsToTick)
             {

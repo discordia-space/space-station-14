@@ -8,6 +8,7 @@ namespace Content.Client.Sanity.UI
 {
     /// <summary>
     /// </summary>
+    ///
     public class SanityBoundUserInterface : BoundUserInterface
     {
         private SanityWindow? _window;
@@ -36,11 +37,6 @@ namespace Content.Client.Sanity.UI
         protected override void UpdateState(BoundUserInterfaceState state)
         {
             base.UpdateState(state);
-            
-            if (_window == null || state is not SanityBoundUserInterfaceState cast)
-                return;
-
-            _window.UpdateData(cast.Sanity);
             
         }
 

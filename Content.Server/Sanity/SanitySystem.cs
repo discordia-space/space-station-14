@@ -13,6 +13,9 @@ using Content.Server.Alert;
 using Content.Server.UserInterface;
 using Content.Shared.Sanity;
 using Content.Shared.Eui;
+using Robust.Shared.Players;
+using System.Net;
+using Robust.Shared.Network;
 
 namespace Content.Server.Sanity
 {
@@ -40,9 +43,9 @@ namespace Content.Server.Sanity
             SanityCompsToTick.Remove(component);
         }
 
-        public void OpenUI(MobSanityComponent component)
+        public void OpenUI(MobSanityComponent component, INetChannel channel)
         {
-            RaiseNetworkEvent(new SanityOpenUI(component.Insight, component.Sanity, component.Rest));
+            RaiseNetworkEvent(new SanityOpenUI(component.Insight, component.Sanity, component.Rest), channel);
         }
 
 
@@ -64,6 +67,7 @@ namespace Content.Server.Sanity
                     continue;
                 }
                 alerts.ShowAlert(AlertType.MobSanity, (short)(component.Sanity/component.SanitySteps));
+                component.Dirty();
             }
             
         }

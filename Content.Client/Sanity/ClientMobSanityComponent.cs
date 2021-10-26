@@ -12,5 +12,18 @@ namespace Content.Client.Sanity
 
         public SanityWindow? SanityMenu;
 
+        public int Sanity = 0;
+        public int Insight = 0;
+        public int Rest = 0;
+
+        public override void HandleComponentState(ComponentState? curState, ComponentState? nextState)
+        {
+            if (curState is not SanityComponentState actualState)
+                return;
+
+            Sanity = actualState.Sanity;
+            Insight = actualState.Insight;
+            Rest = actualState.Rest;
+        }
     }
 }

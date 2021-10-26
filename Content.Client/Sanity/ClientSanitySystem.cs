@@ -4,6 +4,7 @@ using Robust.Shared.GameStates;
 using System;
 using System.Collections.Generic;
 using Content.Client.Sanity.UI;
+using Robust.Shared.Players;
 
 namespace Content.Client.Sanity
 {
@@ -16,12 +17,6 @@ namespace Content.Client.Sanity
             base.Initialize();
             _window = new();
             SubscribeNetworkEvent<SanityOpenUI>(OpenUI);
-            SubscribeNetworkEvent<SanityUpdateData>(UpdateData);
-        }
-
-        public void UpdateData(SanityUpdateData msg)
-        {
-            _window?.UpdateData(msg.Sanity);
         }
 
         public void CloseUI()
@@ -33,9 +28,6 @@ namespace Content.Client.Sanity
             _window?.UpdateData(msg.Sanity);
             _window?.Open();
         }
-        public override void Update(float frameTime)
-        {
-
-        }
+       
     }
 }

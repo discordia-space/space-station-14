@@ -18,7 +18,7 @@ using Robust.Shared.Players;
 
 namespace Content.Server.Sanity
 {
-    [ComponentReference(typeof(SharedMobSanityComponent))]
+    [RegisterComponent()]
     public class MobSanityComponent : SharedMobSanityComponent
     {
 
@@ -141,10 +141,6 @@ namespace Content.Server.Sanity
         [ViewVariables(VVAccess.ReadWrite)]
         public float RestGainPerSecond = 0.75f;
 
-        public override ComponentState GetComponentState(ICommonSession player)
-        {
-            return new SanityComponentState(Insight,Sanity,Rest);
-        }
-
+      
     }
 }

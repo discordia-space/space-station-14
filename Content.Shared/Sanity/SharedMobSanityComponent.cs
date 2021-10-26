@@ -3,28 +3,15 @@ using Robust.Shared.GameObjects;
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
 using Robust.Shared.Players;
+using Robust.Shared.Network;
 
 namespace Content.Shared.Sanity
 {
-    [RegisterComponent()]
     public class SharedMobSanityComponent : Component
     {
         public override string Name => "Sanity";
 
-        [Serializable, NetSerializable]
-        protected class SanityComponentState : ComponentState
-        {
-            public int Insight { get; }
-            public int Sanity { get; }
-            public int Rest { get; }
-
-            public SanityComponentState(int insight, int sanity, int rest)
-            {
-                Insight = insight;
-                Sanity = sanity;
-                Rest = rest;
-            }
-        }
+        public INetChannel? UpdateChannel = null;
     }
 
     [Serializable, NetSerializable]
@@ -33,7 +20,23 @@ namespace Content.Shared.Sanity
         public int Insight { get; }
         public int Sanity { get; }
         public int Rest { get; }
-        public SanityOpenUI(int insight, int sanity, int rest)
+
+        public INetChannel Channel { get; }
+        public SanityOpenUI(int insight, int sanity, int rest, INetChannel channel)
+        {
+            Insight = insight;
+            Sanity = sanity;
+            Rest = rest;
+            Channel = channel;
+        }
+    }
+
+    public class SanityUpdateUI : EntityEventArgs
+    {
+        public int Insight { get; }
+        public int Sanity { get; }
+        public int Rest { get; }
+        public SanityUpdateUI(int insight, int sanity, int rest)
         {
             Insight = insight;
             Sanity = sanity;
@@ -44,6 +47,12 @@ namespace Content.Shared.Sanity
     [Serializable, NetSerializable]
     public class SanityCloseUI : EntityEventArgs
     {
+        public INetChannel Channel { get; }
+
+        public SanityCloseUI(INetChannel channel)
+        {
+            Channel = channel;
+        }
     }
 }
 

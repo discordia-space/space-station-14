@@ -27,7 +27,7 @@ namespace Content.Client.Sanity.UI
         public override void Close()
         {
             base.Close();
-            Raise
+            EntitySystem.Get<ClientSanitySystem>().CloseUI();
         }
     }
 }

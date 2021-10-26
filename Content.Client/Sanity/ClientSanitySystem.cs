@@ -17,7 +17,6 @@ namespace Content.Client.Sanity
             _window = new();
             SubscribeNetworkEvent<SanityOpenUI>(OpenUI);
             SubscribeNetworkEvent<SanityUpdateData>(UpdateData);
-            SubscribeLocalEvent<SanityCloseUI>(CloseUI);
         }
 
         public void UpdateData(SanityUpdateData msg)
@@ -25,6 +24,10 @@ namespace Content.Client.Sanity
             _window?.UpdateData(msg.Sanity);
         }
 
+        public void CloseUI()
+        {
+            RaiseNetworkEvent(new SanityCloseUI());
+        }
         public void OpenUI(SanityOpenUI msg)
         {
             _window?.UpdateData(msg.Sanity);

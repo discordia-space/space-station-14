@@ -5,6 +5,7 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared.Sanity
 {
+    [RegisterComponent()]
     public class SharedMobSanityComponent : Component
     {
         public override string Name => "Sanity";

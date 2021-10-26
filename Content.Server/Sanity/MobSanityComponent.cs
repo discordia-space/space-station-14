@@ -17,7 +17,6 @@ using Content.Shared.Sanity;
 
 namespace Content.Server.Sanity
 {
-    [RegisterComponent()]
     public class MobSanityComponent : SharedMobSanityComponent
     {
 
@@ -139,8 +138,6 @@ namespace Content.Server.Sanity
 
         [ViewVariables(VVAccess.ReadWrite)]
         public float RestGainPerSecond = 0.75f;
-
-
 
     }
 }

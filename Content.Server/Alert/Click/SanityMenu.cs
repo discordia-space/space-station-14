@@ -18,7 +18,7 @@ namespace Content.Server.Alert.Click
 
             if (args.Player.TryGetComponent(out MobSanityComponent? sanityComponent) && args.Player.TryGetComponent(out ActorComponent? actorComponent))
             {
-                EntitySystem.Get<SanitySystem>().OpenUI(sanityComponent, actorComponent.PlayerSession.ConnectedClient);
+                EntitySystem.Get<SanitySystem>().OpenUI(sanityComponent, actorComponent.PlayerSession);
             }
         }
     }

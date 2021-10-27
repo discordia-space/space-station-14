@@ -16,11 +16,18 @@ using Content.Shared.Eui;
 using Robust.Shared.Players;
 using System.Net;
 using Robust.Shared.Network;
+using JetBrains.Annotations;
+using Content.Shared.Popups;
+using Content.Shared.ActionBlocker;
+using Content.Shared.Interaction;
+using Robust.Shared.IoC;
+using Robust.Shared.Localization;
 
 namespace Content.Server.Sanity
 {
     public sealed class SanitySystem : SharedSanitySystem
     {
+        [Dependency] private readonly UserInterfaceSystem _userInterfaceSystem = default!;
         public HashSet<MobSanityComponent> SanityCompsToTick = new();
         public float TimeAccumulator = 0.0f;
         public float TimeBetweenTicks = 15.0f;
@@ -50,15 +57,15 @@ namespace Content.Server.Sanity
             {
                 return;
             }
-
             component.Updating = false;
         }
-        public void OpenUI(MobSanityComponent component, INetChannel channel)
+        public void OpenUI(MobSanityComponent component, IPlayerSession player)
         {
             component.Updating = true;
-            RaiseNetworkEvent(new SanityOpenUI(component.Insight, component.Sanity, component.Rest, component.Owner.Uid), channel);
+            component.Owner.GetUIOrNull(SanityUiKey.Key)?.Open(player);
+            _userInterfaceSystem.TrySetUiState(component.Owner.Uid, SanityUiKey.Key, new SanityBoundUserInterfaceState(
+                        component.Insight, component.Sanity, component.Rest));
         }
-
 
         public override void Update(float frameTime)
         {
@@ -78,14 +85,13 @@ namespace Content.Server.Sanity
                     continue;
                 }
                 alerts.ShowAlert(AlertType.MobSanity, (short)(component.Sanity/component.SanitySteps));
+                
                 if(component.Updating)
                 {
-                    INetChannel? channel = component.Owner.PlayerSession()?.ConnectedClient;
-                    if (channel is not null)
-                    {
-                        RaiseNetworkEvent(new SanityUpdateUI(component.Insight, component.Sanity, component.Rest), channel);
-                    }
+                    _userInterfaceSystem.TrySetUiState(component.Owner.Uid, SanityUiKey.Key, new SanityBoundUserInterfaceState(
+                        component.Insight, component.Sanity, component.Rest));
                 }
+                
             }
         }
     }

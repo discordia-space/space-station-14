@@ -262,6 +262,8 @@
     interfaces:
     - key: enum.StrippingUiKey.Key
       type: StrippableBoundUserInterface
+    - key: enum.SanityUiKey.Key
+      type: SanityBoundUserInterface
   - type: Puller
   - type: Butcherable
     meat: FoodMeat

@@ -12,7 +12,11 @@ namespace Content.Shared.Sanity
         public override string Name => "Sanity";
     }
 
-  
+    [Serializable, NetSerializable]
+    public enum SanityUiKey
+    {
+        Key,
+    }
 
     [Serializable, NetSerializable]
     public class SanityOpenUI : EntityEventArgs
@@ -31,12 +35,12 @@ namespace Content.Shared.Sanity
         }
     }
     [Serializable, NetSerializable]
-    public class SanityUpdateUI : EntityEventArgs
+    public class SanityBoundUserInterfaceState : BoundUserInterfaceState
     {
         public int Insight { get; }
         public int Sanity { get; }
         public int Rest { get; }
-        public SanityUpdateUI(int insight, int sanity, int rest)
+        public SanityBoundUserInterfaceState(int insight, int sanity, int rest)
         {
             Insight = insight;
             Sanity = sanity;

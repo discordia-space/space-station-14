@@ -33,18 +33,20 @@ namespace Content.Server.Sanity
             get => _sanity;
             set
             {
-                if (_sanity + value > MaxSanity)
+                if(_sanity + value > MaxSanity)
                 {
                     _sanity = MaxSanity;
+                    return;
                 }
-                else
-                    _sanity += value;
-
+                if(_sanity + value < 1)
+                {
+                    _sanity = 0;
+                    return;
+                }
+                _sanity = value;
             }
         }
-        /// <summary>
-        ///  Internal variable for handling sanity set and get.
-        /// </summary>
+
         private int _sanity = 0;
         /// <summary>
         /// How much sanity points are given per second, this rounds itself , but losses are aceptable.
@@ -91,15 +93,17 @@ namespace Content.Server.Sanity
             get => _insight;
             set
             {
-                if (_insight + value > RequiredInsight)
+                if(_insight + value > RequiredInsight)
                 {
                     InsightPoints += (_insight + value) / RequiredInsight;
                     _insight = (_insight + value) % RequiredInsight;
+                    return;
                 }
-                else
-                    _insight += value;
+                _insight = value;
             }
+
         }
+
 
         private int _insight = 0;
 
@@ -121,13 +125,13 @@ namespace Content.Server.Sanity
             get => _rest;
             set
             {
-                if (_rest + value > RestRequired)
+                if(_rest + value > RestRequired)
                 {
                     RestPoints += (_rest + value) / RestRequired;
                     _rest = (_rest + value) % RestRequired;
+                    return;
                 }
-                else
-                    _rest += value;
+                _rest = value;
             }
         }
 

@@ -23,11 +23,5 @@ namespace Content.Client.Sanity.UI
         {
             SanityLineEdit.Text = sanity.ToString();
         }
-
-        public override void Close()
-        {
-            base.Close();
-            EntitySystem.Get<ClientSanitySystem>().CloseUI();
-        }
     }
 }

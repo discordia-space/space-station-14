@@ -5,6 +5,7 @@
   id: BaseAlertOrder
   order:
     - category: Health
+    - category: Sanity
     - alertType: Fire
     - alertType: Handcuffed
     - category: Buckled

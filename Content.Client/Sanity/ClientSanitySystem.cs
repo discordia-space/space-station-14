@@ -13,11 +13,8 @@ namespace Content.Client.Sanity
     public sealed class ClientSanitySystem : SharedSanitySystem
     {
         private SanityWindow? _window = null;
-        /// <summary>
-        /// We don't know our damn channel until we get told by the server
-        /// </summary>
-        private INetChannel? _channel = null;
 
+        private EntityUid? _playerUID = null;
         public override void Initialize()
         {
             base.Initialize();
@@ -33,15 +30,14 @@ namespace Content.Client.Sanity
 
         public void CloseUI()
         {
-            if (_channel is not null)
+            if (_playerUID is not null)
             {
-                RaiseNetworkEvent(new SanityCloseUI(_channel));
-                _channel = null;
+                RaiseNetworkEvent(new SanityCloseUI((EntityUid)_playerUID));
             }
         }
         public void OpenUI(SanityOpenUI msg)
         {
-            _channel = msg.Channel;
+            _playerUID = msg.PlayerUID;
             _window?.UpdateData(msg.Sanity);
             _window?.Open();
         }

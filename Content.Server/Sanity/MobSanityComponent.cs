@@ -18,13 +18,15 @@ using Robust.Shared.Players;
 
 namespace Content.Server.Sanity
 {
-    [RegisterComponent()]
+    [RegisterComponent]
     public class MobSanityComponent : SharedMobSanityComponent
     {
 
         /// <summary>
         ///  Sanity variables
         /// </summary>
+        [ViewVariables(VVAccess.ReadWrite)]
+        public bool Updating = false;
 
         public int Sanity
         {

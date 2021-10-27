@@ -10,9 +10,9 @@ namespace Content.Shared.Sanity
     public class SharedMobSanityComponent : Component
     {
         public override string Name => "Sanity";
-
-        public INetChannel? UpdateChannel = null;
     }
+
+  
 
     [Serializable, NetSerializable]
     public class SanityOpenUI : EntityEventArgs
@@ -21,16 +21,16 @@ namespace Content.Shared.Sanity
         public int Sanity { get; }
         public int Rest { get; }
 
-        public INetChannel Channel { get; }
-        public SanityOpenUI(int insight, int sanity, int rest, INetChannel channel)
+        public EntityUid PlayerUID { get; }
+        public SanityOpenUI(int insight, int sanity, int rest, EntityUid playerUID)
         {
             Insight = insight;
             Sanity = sanity;
             Rest = rest;
-            Channel = channel;
+            PlayerUID = playerUID;
         }
     }
-
+    [Serializable, NetSerializable]
     public class SanityUpdateUI : EntityEventArgs
     {
         public int Insight { get; }
@@ -47,11 +47,11 @@ namespace Content.Shared.Sanity
     [Serializable, NetSerializable]
     public class SanityCloseUI : EntityEventArgs
     {
-        public INetChannel Channel { get; }
+        public EntityUid PlayerUID { get; }
 
-        public SanityCloseUI(INetChannel channel)
+        public SanityCloseUI(EntityUid playerUID)
         {
-            Channel = channel;
+            PlayerUID = playerUID;
         }
     }
 }

@@ -22,7 +22,6 @@ namespace Content.Server.Sanity
     public sealed class SanitySystem : SharedSanitySystem
     {
         public HashSet<MobSanityComponent> SanityCompsToTick = new();
-        public HashSet<MobSanityComponent> SanityCompsToUpdate = new();
         public float TimeAccumulator = 0.0f;
         public float TimeBetweenTicks = 15.0f;
 
@@ -39,7 +38,6 @@ namespace Content.Server.Sanity
         {
             SanityCompsToTick.Add(component);
         }
-
         public void OnDelete(EntityUid uid, MobSanityComponent component, ComponentRemove args)
         {
             SanityCompsToTick.Remove(component);
@@ -47,21 +45,18 @@ namespace Content.Server.Sanity
 
         public void CloseUI(SanityCloseUI msg)
         {
-            foreach(MobSanityComponent component in SanityCompsToUpdate)
+            MobSanityComponent? component = null;
+            if(!Resolve(msg.PlayerUID, ref component))
             {
-                if(component.UpdateChannel == msg.Channel)
-                {
-                    component.UpdateChannel = null;
-                    SanityCompsToUpdate.Remove(component);
-                    break;
-                }
+                return;
             }
+
+            component.Updating = false;
         }
         public void OpenUI(MobSanityComponent component, INetChannel channel)
         {
-            component.UpdateChannel = channel;
-            SanityCompsToUpdate.Add(component);
-            RaiseNetworkEvent(new SanityOpenUI(component.Insight, component.Sanity, component.Rest, channel), channel);
+            component.Updating = true;
+            RaiseNetworkEvent(new SanityOpenUI(component.Insight, component.Sanity, component.Rest, component.Owner.Uid), channel);
         }
 
 
@@ -83,20 +78,15 @@ namespace Content.Server.Sanity
                     continue;
                 }
                 alerts.ShowAlert(AlertType.MobSanity, (short)(component.Sanity/component.SanitySteps));
-            }
-
-            foreach(MobSanityComponent component in SanityCompsToUpdate)
-            {
-                if (component.UpdateChannel is not null)
+                if(component.Updating)
                 {
-                    RaiseNetworkEvent(new SanityUpdateUI(component.Insight, component.Sanity, component.Rest), component.UpdateChannel);
-                }
-                else
-                {
-                    SanityCompsToUpdate.Remove(component);
+                    INetChannel? channel = component.Owner.PlayerSession()?.ConnectedClient;
+                    if (channel is not null)
+                    {
+                        RaiseNetworkEvent(new SanityUpdateUI(component.Insight, component.Sanity, component.Rest), channel);
+                    }
                 }
             }
-            
         }
     }
 }

@@ -31,15 +31,6 @@ namespace Content.Client.Sanity.UI
 
         }
 
-        /// <summary>
-        /// Update the UI state based on server-sent info
-        /// </summary>
-        protected override void UpdateState(BoundUserInterfaceState state)
-        {
-            base.UpdateState(state);
-            
-        }
-
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);

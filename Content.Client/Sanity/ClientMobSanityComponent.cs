@@ -9,12 +9,5 @@ namespace Content.Client.Sanity
 {
     public class ClientMobSanityComponent : SharedMobSanityComponent
     {
-
-        public SanityWindow? SanityMenu;
-
-        public int Sanity = 0;
-        public int Insight = 0;
-        public int Rest = 0;
-
     }
 }

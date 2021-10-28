@@ -31,7 +31,11 @@ namespace Content.Shared.Sanity
 
         [DataField("duration")]
         public float Duration { get; } = 120.0f;
-        public enum SanityUiKey
+    }
+
+
+
+    public enum SanityUiKey
     {
         Key,
     }

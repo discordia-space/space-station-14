@@ -37,7 +37,6 @@ namespace Content.Shared.Sanity.Prototypes
 
         void End(SanityBreakdownEventArgs args)
         {
-
         }
     }
 }

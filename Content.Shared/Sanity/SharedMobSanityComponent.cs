@@ -18,24 +18,21 @@ namespace Content.Shared.Sanity
         public override string Name => "Sanity";
     }
 
-    [Serializable, NetSerializable]
-
-    [Prototype("SanityBreakdown")]
-    public class SanityBreakdownPrototype : IPrototype
+    public class SanityBreakdownEventArgs : EventArgs
     {
-        [DataField("name")]
-        public string Name { get; } = string.Empty;
+        /// <summary>
+        /// Player that the breakdown is acting upon
+        /// </summary>
+        public readonly IEntity Player;
 
-        [DataField("id", required: true)]
-        public string ID { get; } = default!;
-
-        [DataField("duration")]
-        public float Duration { get; } = 120.0f;
+        public SanityBreakdownEventArgs(IEntity player)
+        {
+            Player = player;
+        }
     }
+}
 
-
-
-    public enum SanityUiKey
+public enum SanityUiKey
     {
         Key,
     }

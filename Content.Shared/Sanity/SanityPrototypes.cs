@@ -35,24 +35,13 @@ namespace Content.Shared.Sanity.Prototypes
 
         public float ImposedDelay { get; } = 300.0f;
 
-        [DataField("beginstring")]
-        public string BeginString { get; } = string.Empty;
-
-        [DataField("endingstring")]
-
-        public string EndingString { get; } = string.Empty;
-
         [DataField("reoccuring")]
 
         public bool Reoccuring { get; } = false;
 
-        [DataField("reoccuringmessage")]
+        [DataField("reoccuringdelay")]
 
         public float ReoccuringInterval { get; } = 10.0f;
-
-        [DataField("reoccuringeffects")]
-
-        public ISanityReoccuring ReoccuringEffects { get; } = default!;
 
 
 
@@ -67,18 +56,11 @@ namespace Content.Shared.Sanity.Prototypes
         void End(SanityBreakdownEventArgs args)
         {
         }
-    }
 
-    public interface ISanityReoccuring
-    {
         void ApplyEffects(SanityBreakdownEventArgs args)
         {
 
         }
-
-        void EndEffects(SanityBreakdownEventArgs args)
-        {
-
-        }
     }
+
 }

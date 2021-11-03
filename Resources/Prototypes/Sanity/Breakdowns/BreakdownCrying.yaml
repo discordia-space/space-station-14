@@ -1,0 +1,8 @@
+
+- type: sanitybreakdown
+  name: !type BreakdownCrying
+  duration: 200f
+  canoccurat: 40
+  imposeddelay: 0
+  reoccuring: true
+  reoccuringinterval: 10f

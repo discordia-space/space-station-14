@@ -1,4 +1,4 @@
-﻿namespace Content.Shared.Alert
+namespace Content.Shared.Alert
 {
     /// <summary>
     /// Every category of alert. Corresponds to category field in alert prototypes defined in YML
@@ -12,7 +12,8 @@
         Health,
         Piloting,
         Hunger,
-        Thirst
+        Thirst,
+        Sanity
     }
 
     /// <summary>
@@ -51,7 +52,8 @@
         Debug3,
         Debug4,
         Debug5,
-        Debug6
+        Debug6,
+        MobSanity
     }
 
 }

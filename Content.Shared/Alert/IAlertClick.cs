@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Robust.Shared.GameObjects;
 
 namespace Content.Shared.Alert

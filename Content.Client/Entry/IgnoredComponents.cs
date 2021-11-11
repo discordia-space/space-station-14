@@ -164,6 +164,7 @@ namespace Content.Client.Entry
             "PressureSiphon",
             "PipeHeater",
             "AtmosDevice",
+            "Sanity",
             "SignalReceiver",
             "SignalSwitch",
             "SignalTransmitter",

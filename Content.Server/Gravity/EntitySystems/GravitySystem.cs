@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Content.Server.Camera;
+using Content.Server.GameTicking;
 using Content.Shared.Gravity;
 using Content.Shared.Sound;
 using JetBrains.Annotations;
@@ -42,6 +43,7 @@ namespace Content.Server.Gravity.EntitySystems
             if (ev.GridId == GridId.Invalid) return;
 
             var gravity = EntityManager.GetComponent<GravityComponent>(_mapManager.GetGrid(ev.GridId).GridEntityId);
+            var gameTicker = EntitySystem.Get<GameTicker>();
 
             if (ev.Status == GravityGeneratorStatus.On)
             {
@@ -49,6 +51,21 @@ namespace Content.Server.Gravity.EntitySystems
             }
             else
             {
+                if (gameTicker.GridsZ.Contains(ev.GridId))
+                {
+                    foreach (var grid in gameTicker.GridsZ)
+                    {
+                        var gridEnt = EntityManager.GetEntity(_mapManager.GetGrid(grid).GridEntityId);
+                        if (gridEnt.TryGetComponent<GravityComponent>(out var grav))
+                        {
+                            if (grav.Enabled)
+                            {
+                                EnableGravity(gravity);
+                                return;
+                            }
+                        }
+                    }
+                }
                 DisableGravity(gravity);
             }
         }
@@ -61,7 +78,24 @@ namespace Content.Server.Gravity.EntitySystems
 
             foreach (var generator in EntityManager.EntityQuery<GravityGeneratorComponent>(true))
             {
-                if (generator.Owner.Transform.GridID == gridId && generator.Status == GravityGeneratorStatus.On)
+                var gameTicker = EntitySystem.Get<GameTicker>();
+                var enable = false;
+                if (gameTicker.GridsZ.Contains(generator.Owner.Transform.GridID))
+                {
+                    foreach (var grid in gameTicker.GridsZ)
+                    {
+                        var gridEnt = EntityManager.GetEntity(_mapManager.GetGrid(grid).GridEntityId);
+                        if (gridEnt.TryGetComponent<GravityComponent>(out var grav))
+                        {
+                            if (grav.Enabled)
+                            {
+                                enable = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if ((generator.Owner.Transform.GridID == gridId) && generator.Status == GravityGeneratorStatus.On)
                 {
                     component.Enabled = true;
                     message = new GravityChangedMessage(gridId, true);

@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Content.Server.GameTicking;
 using Robust.Shared.GameObjects;
+using Robust.Shared.IoC;
 using Robust.Shared.Map;
 using Robust.Shared.Maths;
 
@@ -28,7 +30,7 @@ namespace Content.Server.NodeContainer.Nodes
 
         public static IEnumerable<(Direction dir, Node node)> GetCardinalNeighborNodes(
             IEntityManager entMan,
-            IMapGrid grid,
+            GridId grid,
             Vector2i coords,
             bool includeSameTile = true)
         {
@@ -46,10 +48,12 @@ namespace Content.Server.NodeContainer.Nodes
 
         [SuppressMessage("ReSharper", "EnforceForeachStatementBraces")]
         public static IEnumerable<(Direction dir, EntityUid entity)> GetCardinalNeighborCells(
-            IMapGrid grid,
+            GridId gridid,
             Vector2i coords,
             bool includeSameTile = true)
         {
+            var mapMan = IoCManager.Resolve<IMapManager>();
+            var grid = mapMan.GetGrid(gridid);
             if (includeSameTile)
             {
                 foreach (var uid in grid.GetAnchoredEntities(coords))
@@ -67,6 +71,17 @@ namespace Content.Server.NodeContainer.Nodes
 
             foreach (var uid in grid.GetAnchoredEntities(coords + (-1, 0)))
                 yield return (Direction.West, uid);
+
+            var ticker = EntitySystem.Get<GameTicker>();
+            var index = ticker.GridsZ.IndexOf(gridid);
+            if (index - 1 > 0)
+            {
+                var upperGrid = mapMan.GetGrid(ticker.GridsZ[index - 1]);
+                foreach (var uid in upperGrid.GetAnchoredEntities(coords))
+                {
+                    yield return (Direction.Invalid, uid);
+                }
+            }
         }
 
         public static Vector2i TileOffsetForDir(Direction dir)

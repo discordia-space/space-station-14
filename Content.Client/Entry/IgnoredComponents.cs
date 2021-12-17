@@ -28,6 +28,7 @@ namespace Content.Client.Entry
             "Construction",
             "PoweredLight",
             "Smes",
+            "Ladder",
             "LightBulb",
             "Healing",
             "Material",

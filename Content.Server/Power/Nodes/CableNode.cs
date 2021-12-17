@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Content.Server.NodeContainer.Nodes;
 using Content.Server.Power.EntitySystems;
 using Robust.Shared.GameObjects;
@@ -26,7 +26,7 @@ namespace Content.Server.Power.Nodes
             var terminalDirs = 0;
             List<(Direction, Node)> nodeDirs = new();
 
-            foreach (var (dir, node) in NodeHelpers.GetCardinalNeighborNodes(entMan, grid, gridIndex))
+            foreach (var (dir, node) in NodeHelpers.GetCardinalNeighborNodes(entMan, Owner.Transform.GridID, gridIndex))
             {
                 if (node is CableNode && node != this)
                 {

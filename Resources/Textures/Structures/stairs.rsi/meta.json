@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "ramptop",
+      "directions": 4
+    },
+    {
+      "name": "rampdown",
+      "directions": 4
+    },
+    {
+      "name": "rampdark",
+      "directions": 4
+    },
+    {
+      "name": "rampbottom",
+      "directions": 4
+    },
+    {
+      "name": "ladder00"
+    },
+    {
+      "name": "ladder10"
+    },
+    {
+      "name": "ladder01"
+    },
+    {
+      "name": "ladder11"
+    },
+    {
+      "name": "ladderdown"
+    },
+    {
+      "name": "ladderup"
+    },
+    {
+      "name": "rampup",
+      "directions": 4
+    }
+  ]
+}
